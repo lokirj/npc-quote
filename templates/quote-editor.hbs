@@ -1,0 +1,64 @@
+<div class="npc-quote-editor-content">
+{{#if isGlobal}}
+  <p class="hint">{{localize "NPCQUOTE.Editor.GlobalHint"}}</p>
+  <nav class="npc-quote-tabs">
+    {{#each tiers}}
+    <button type="button" data-action="tab" data-tier="{{id}}" class="{{#if active}}active{{/if}}">{{label}}</button>
+    {{/each}}
+  </nav>
+  {{#each tiers}}
+  <section class="npc-quote-tier standard-form {{#if active}}active{{/if}}" data-tier="{{id}}">
+    <p class="hint">{{description}}</p>
+    {{#each fields}}
+    <div class="form-group stacked">
+      <label>{{label}}</label>
+      <textarea name="{{name}}" data-kind="{{kind}}" rows="{{rows}}">{{value}}</textarea>
+      <p class="hint">{{hint}}</p>
+    </div>
+    {{/each}}
+  </section>
+  {{/each}}
+{{else}}
+  <div class="standard-form">
+    <div class="form-group">
+      <label for="npc-quote-enabled">{{localize "NPCQUOTE.Editor.Enabled"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" id="npc-quote-enabled" name="enabled" {{checked enabled}}>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="npc-quote-tier">{{localize "NPCQUOTE.Editor.Tier"}}</label>
+      <div class="form-fields">
+        <select id="npc-quote-tier" name="tier">
+          {{#each tierOptions}}
+          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <p class="hint">{{tierInfo}}</p>
+    </div>
+    {{#each fields}}
+    <div class="form-group stacked">
+      <label>{{label}}</label>
+      <textarea name="{{name}}" data-kind="{{kind}}" rows="{{rows}}" placeholder="{{placeholder}}">{{value}}</textarea>
+      <p class="hint">{{hint}}</p>
+    </div>
+    {{/each}}
+  </div>
+{{/if}}
+
+<footer class="form-footer">
+  <button type="button" data-action="preview" data-kind="hit">
+    <i class="fa-solid fa-eye"></i> {{localize "NPCQUOTE.Editor.PreviewHit"}}
+  </button>
+  <button type="button" data-action="preview" data-kind="crit">
+    <i class="fa-solid fa-burst"></i> {{localize "NPCQUOTE.Editor.PreviewCrit"}}
+  </button>
+  <button type="button" data-action="preview" data-kind="miss">
+    <i class="fa-solid fa-face-grin-squint"></i> {{localize "NPCQUOTE.Editor.PreviewMiss"}}
+  </button>
+  <button type="submit">
+    <i class="fa-solid fa-floppy-disk"></i> {{localize "NPCQUOTE.Editor.Save"}}
+  </button>
+</footer>
+</div>
