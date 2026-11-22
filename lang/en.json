@@ -1,0 +1,127 @@
+{
+  "NPCQUOTE": {
+    "TargetFallback": "adventurer",
+    "Tier": {
+      "Label": "{name} (INT {range})",
+      "beast": "Bestial",
+      "beastHint": "Animals and beasts. They don't talk: they growl, howl and act. Use *asterisks* to describe the action.",
+      "brute": "Brute",
+      "bruteHint": "Ogres, orc brutes, trolls. Broken speech, short simple lines.",
+      "average": "Average",
+      "averageHint": "Bandits, soldiers, cultists. Direct threats and common insults.",
+      "cunning": "Cunning",
+      "cunningHint": "Captains, assassins, mages. Tactical and sarcastic, points out the target's mistakes.",
+      "genius": "Genius",
+      "geniusHint": "Dragons, mind flayers, liches. Eloquent, cold and condescending."
+    },
+    "Editor": {
+      "Open": "Battle quotes",
+      "TitleActor": "Battle quotes: {name}",
+      "TitleGlobal": "Default battle quotes",
+      "GlobalHint": "NPCs without their own quotes use the quotes for their intelligence tier. {alvo} becomes the attacked character's name.",
+      "Enabled": "Enable quotes for this NPC",
+      "Tier": "Intelligence",
+      "TierAuto": "Automatic from INT ({int})",
+      "TierInfo": "Tier in use: {tier}. Empty boxes use this tier's default quotes.",
+      "Kind": {
+        "hit": {
+          "Label": "On a solid hit",
+          "Hint": "One quote per line. Use {alvo} for the attacked character's name."
+        },
+        "crit": {
+          "Label": "On a critical hit (optional)",
+          "Hint": "If empty, the hit quotes are used."
+        },
+        "miss": {
+          "Label": "On a bad miss (mockery/insult)",
+          "Hint": "When the NPC misses by a lot, it belittles or insults the character."
+        }
+      },
+      "PreviewHit": "Preview hit",
+      "PreviewCrit": "Preview critical",
+      "PreviewMiss": "Preview miss",
+      "Save": "Save",
+      "Saved": "Battle quotes saved.",
+      "Empty": "No quotes set for this case.",
+      "SampleName": "Villain",
+      "SampleTarget": "Adventurer"
+    },
+    "Settings": {
+      "globalEditor": {
+        "Name": "Default quotes",
+        "Label": "Edit default quotes",
+        "Hint": "Quotes per intelligence tier, used by NPCs that don't have their own."
+      },
+      "enabled": {
+        "Name": "Enable battle quotes",
+        "Hint": "Show a quote when an NPC hits or misses an attack by a wide margin."
+      },
+      "minMargin": {
+        "Name": "Minimum margin",
+        "Hint": "The quote only appears if the attack beats the AC (or falls short of it) by MORE than this value. With 5: hit by 6+ or miss by 6+."
+      },
+      "showMiss": {
+        "Name": "Mock on bad misses",
+        "Hint": "When the NPC misses by more than the minimum margin, it belittles or insults the character."
+      },
+      "extremesAlways": {
+        "Name": "Natural 20 and 1 always show",
+        "Hint": "A crit shows a crit quote and a natural 1 shows mockery, even without reaching the margin."
+      },
+      "audience": {
+        "Name": "Who sees the quote",
+        "Hint": "Private GM rolls (whispered or blind) are only shown to the GM.",
+        "All": "Everyone (GM and players)",
+        "GM": "GM only"
+      },
+      "noTarget": {
+        "Name": "Attack without a target",
+        "Hint": "Without a targeted token (T key) the module has no AC to compute the margin.",
+        "Ignore": "Don't show",
+        "Crit": "Natural 20 (hit) or natural 1 (miss) only",
+        "Always": "Always show"
+      },
+      "chance": {
+        "Name": "Chance to appear (%)",
+        "Hint": "Use less than 100 so the quote doesn't appear on every qualifying roll."
+      },
+      "imageSource": {
+        "Name": "Image shown",
+        "Hint": "Which NPC image appears with the quote.",
+        "Token": "Token",
+        "Portrait": "Portrait (sheet image)"
+      },
+      "showName": {
+        "Name": "Show NPC name",
+        "Hint": "Uses the token's name on the scene (handy if you rename tokens to hide the real name)."
+      },
+      "scale": {
+        "Name": "Size (%)",
+        "Hint": "Size of the quote card. 100 is the original size; 150 is 50% bigger."
+      },
+      "position": {
+        "Name": "Screen position",
+        "Hint": "",
+        "Bottom": "Bottom",
+        "Center": "Center",
+        "Top": "Top"
+      },
+      "wordDelay": {
+        "Name": "Delay between words (ms)",
+        "Hint": "Time between each word appearing."
+      },
+      "holdTime": {
+        "Name": "Time on screen (seconds)",
+        "Hint": "How long the quote stays after the last word. Click the quote to dismiss it early."
+      },
+      "useGlobal": {
+        "Name": "Use default quotes",
+        "Hint": "NPCs without their own quotes use the defaults for their intelligence tier. Unchecked: only NPCs with quotes speak."
+      },
+      "includePlayerOwned": {
+        "Name": "Include player-owned NPCs",
+        "Hint": "Also show quotes for NPCs controlled by players (summons, companions)."
+      }
+    }
+  }
+}
