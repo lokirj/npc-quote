@@ -1,0 +1,173 @@
+/* ===== NPC Quote — Frases de Efeito ===== */
+
+.npc-quote-overlay {
+  --npc-quote-gold: #c9a227;
+  --npc-quote-red: #b3261e;
+  --npc-quote-text: #f4ead5;
+  /* Tamanho: definido pela configuração "Tamanho" (1.5 = 150%). */
+  --s: 1.5;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 9000;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+.npc-quote-overlay.npc-quote-bottom { bottom: 14%; }
+.npc-quote-overlay.npc-quote-top    { top: 10%; }
+.npc-quote-overlay.npc-quote-center { top: 50%; transform: translateY(-50%); }
+
+.npc-quote-card {
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: calc(1.25rem * var(--s));
+  max-width: min(calc(900px * var(--s)), 92vw);
+  padding: calc(0.9rem * var(--s)) calc(2.5rem * var(--s)) calc(0.9rem * var(--s)) calc(0.9rem * var(--s));
+  background: linear-gradient(90deg, rgba(12, 7, 5, 0.94) 0%, rgba(32, 12, 8, 0.88) 70%, rgba(32, 12, 8, 0.55) 100%);
+  border-left: calc(4px * var(--s)) solid var(--npc-quote-red);
+  border-radius: 999px calc(14px * var(--s)) calc(14px * var(--s)) 999px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(201, 162, 39, 0.25);
+  opacity: 0;
+  transform: translateX(calc(-80px * var(--s)));
+  transition: opacity 0.35s ease, transform 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.25);
+}
+.npc-quote-in .npc-quote-card { opacity: 1; transform: none; }
+.npc-quote-out .npc-quote-card {
+  opacity: 0;
+  transform: translateX(calc(60px * var(--s)));
+  transition: opacity 0.4s ease, transform 0.4s ease-in;
+}
+
+.npc-quote-portrait {
+  flex: 0 0 auto;
+  width: calc(120px * var(--s));
+  height: calc(120px * var(--s));
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle, #3a2a1a 0%, #0c0705 75%);
+  border: calc(3px * var(--s)) solid var(--npc-quote-gold);
+  box-shadow: 0 0 calc(18px * var(--s)) rgba(201, 162, 39, 0.45);
+}
+.npc-quote-portrait img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+.npc-quote-kind-portrait img { object-position: top center; }
+.npc-quote-kind-token img { object-fit: contain; transform: scale(1.08); }
+
+.npc-quote-body { min-width: 0; }
+
+.npc-quote-name {
+  font-family: "Modesto Condensed", "Roboto Condensed", serif;
+  font-size: calc(1.15rem * var(--s));
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--npc-quote-gold);
+  margin-bottom: calc(0.15rem * var(--s));
+}
+
+.npc-quote-text {
+  font-family: "Modesto Condensed", "Roboto Slab", serif;
+  font-size: clamp(calc(1.6rem * var(--s)), calc(3.2vw * var(--s)), calc(2.8rem * var(--s)));
+  font-weight: bold;
+  line-height: 1.12;
+  color: var(--npc-quote-text);
+  text-shadow: 0 2px 6px #000;
+}
+
+.npc-quote-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px) scale(1.5);
+  filter: blur(4px);
+  transition: opacity 0.18s ease, transform 0.26s cubic-bezier(0.2, 0.9, 0.3, 1.4), filter 0.2s ease;
+}
+.npc-quote-word.npc-quote-show { opacity: 1; transform: none; filter: none; }
+
+/* ----- Acerto crítico ----- */
+.npc-quote-crit .npc-quote-card {
+  border-left-color: #ff3b1f;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65), 0 0 30px rgba(255, 59, 31, 0.35), inset 0 0 0 1px rgba(255, 59, 31, 0.4);
+}
+.npc-quote-crit.npc-quote-in:not(.npc-quote-out) .npc-quote-card { animation: npc-quote-shake 0.45s 0.35s; }
+.npc-quote-crit .npc-quote-portrait { border-color: #ff3b1f; box-shadow: 0 0 22px rgba(255, 59, 31, 0.7); }
+.npc-quote-crit .npc-quote-text {
+  color: #ffd9cc;
+  text-shadow: 0 0 14px rgba(255, 59, 31, 0.85), 0 2px 6px #000;
+}
+
+/* ----- Erro feio (NPC zomba do personagem) ----- */
+.npc-quote-miss .npc-quote-card {
+  border-left-color: #7b6cd1;
+  background: linear-gradient(90deg, rgba(8, 7, 16, 0.94) 0%, rgba(22, 16, 40, 0.88) 70%, rgba(22, 16, 40, 0.55) 100%);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65), inset 0 0 0 1px rgba(123, 108, 209, 0.35);
+}
+.npc-quote-miss .npc-quote-portrait { border-color: #9a8ee0; box-shadow: 0 0 18px rgba(123, 108, 209, 0.55); }
+.npc-quote-miss .npc-quote-name { color: #b7adf0; }
+.npc-quote-miss .npc-quote-text {
+  color: #e8e4ff;
+  text-shadow: 0 0 12px rgba(123, 108, 209, 0.7), 0 2px 6px #000;
+}
+.npc-quote-miss.npc-quote-in:not(.npc-quote-out) .npc-quote-card { animation: npc-quote-smirk 0.6s 0.3s; }
+
+/* ----- *Ação* (feras, descrições) ----- */
+.npc-quote-action .npc-quote-text {
+  font-style: italic;
+  font-weight: normal;
+  font-size: clamp(calc(1.3rem * var(--s)), calc(2.5vw * var(--s)), calc(2.1rem * var(--s)));
+}
+
+@keyframes npc-quote-smirk {
+  0%, 100% { transform: none; }
+  40% { transform: rotate(-1.2deg) translateY(-3px); }
+  70% { transform: rotate(0.6deg); }
+}
+
+@keyframes npc-quote-shake {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-8px) rotate(-0.6deg); }
+  40% { transform: translateX(7px) rotate(0.5deg); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .npc-quote-card, .npc-quote-word { transition-duration: 0.01s; }
+  .npc-quote-crit.npc-quote-in .npc-quote-card,
+  .npc-quote-miss.npc-quote-in .npc-quote-card { animation: none; }
+}
+
+/* ----- Editor ----- */
+.npc-quote-editor-content { display: flex; flex-direction: column; gap: 1rem; }
+.npc-quote-editor textarea {
+  width: 100%;
+  min-height: 7rem;
+  resize: vertical;
+  font-family: inherit;
+}
+.npc-quote-editor .form-footer { gap: 0.5rem; flex-wrap: wrap; }
+.npc-quote-editor .form-footer button { flex: 1 1 auto; white-space: nowrap; }
+.npc-quote-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--color-border, #7a7971);
+  padding-bottom: 0.4rem;
+}
+.npc-quote-tabs button {
+  flex: 1 1 auto;
+  font-size: var(--font-size-12, 12px);
+  opacity: 0.7;
+}
+.npc-quote-tabs button.active {
+  opacity: 1;
+  font-weight: bold;
+  box-shadow: inset 0 -2px 0 var(--color-warm-1, #c9a227);
+}
+.npc-quote-editor .npc-quote-tier:not(.active) { display: none !important; }
