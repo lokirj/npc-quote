@@ -1,0 +1,127 @@
+{
+  "NPCQUOTE": {
+    "TargetFallback": "aventureiro",
+    "Tier": {
+      "Label": "{name} (INT {range})",
+      "beast": "Bestial",
+      "beastHint": "Animais e feras. Não falam: rosnam, uivam e agem. Use *asteriscos* para descrever a ação.",
+      "brute": "Bruto",
+      "bruteHint": "Ogros, orcs brutamontes, trolls. Fala quebrada, frases curtas e simples.",
+      "average": "Comum",
+      "averageHint": "Bandidos, soldados, cultistas. Ameaças diretas e insultos comuns.",
+      "cunning": "Astuto",
+      "cunningHint": "Capitães, assassinos, magos. Tático e sarcástico, aponta os erros do alvo.",
+      "genius": "Gênio",
+      "geniusHint": "Dragões, devoradores de mentes, liches. Eloquente, frio e condescendente."
+    },
+    "Editor": {
+      "Open": "Frases de efeito",
+      "TitleActor": "Frases de efeito: {name}",
+      "TitleGlobal": "Frases de efeito padrão",
+      "GlobalHint": "NPCs sem frases próprias usam as frases da faixa da inteligência deles. {alvo} vira o nome do personagem atacado.",
+      "Enabled": "Ativar frases para este NPC",
+      "Tier": "Inteligência",
+      "TierAuto": "Automático pela INT ({int})",
+      "TierInfo": "Faixa usada: {tier}. Caixas vazias usam as frases padrão desta faixa.",
+      "Kind": {
+        "hit": {
+          "Label": "Ao acertar com folga",
+          "Hint": "Uma frase por linha. Use {alvo} para o nome do personagem atacado."
+        },
+        "crit": {
+          "Label": "Em acerto crítico (opcional)",
+          "Hint": "Se ficar vazio, usa as frases de acerto."
+        },
+        "miss": {
+          "Label": "Ao errar feio (deboche/insulto)",
+          "Hint": "Quando o NPC erra por muito, ele menospreza ou insulta o personagem."
+        }
+      },
+      "PreviewHit": "Testar acerto",
+      "PreviewCrit": "Testar crítico",
+      "PreviewMiss": "Testar erro",
+      "Save": "Salvar",
+      "Saved": "Frases de efeito salvas.",
+      "Empty": "Nenhuma frase cadastrada para esse caso.",
+      "SampleName": "Vilão",
+      "SampleTarget": "Aventureiro"
+    },
+    "Settings": {
+      "globalEditor": {
+        "Name": "Frases padrão",
+        "Label": "Editar frases padrão",
+        "Hint": "Frases por faixa de inteligência, usadas pelos NPCs que não têm frases próprias."
+      },
+      "enabled": {
+        "Name": "Ativar frases de efeito",
+        "Hint": "Mostra uma frase quando um NPC acerta ou erra um ataque por muito."
+      },
+      "minMargin": {
+        "Name": "Margem mínima",
+        "Hint": "A frase só aparece se o ataque passar da CA (ou ficar abaixo dela) por MAIS que este valor. Com 5: acerto por 6 ou mais, erro por 6 ou mais."
+      },
+      "showMiss": {
+        "Name": "Zombar quando errar feio",
+        "Hint": "Quando o NPC erra por mais que a margem mínima, ele menospreza ou insulta o personagem."
+      },
+      "extremesAlways": {
+        "Name": "20 e 1 naturais sempre mostram",
+        "Hint": "Crítico mostra frase de crítico e 1 natural mostra deboche, mesmo sem atingir a margem."
+      },
+      "audience": {
+        "Name": "Quem vê a frase",
+        "Hint": "Rolagens privadas do Mestre (sussurradas ou cegas) só aparecem para o Mestre.",
+        "All": "Todos (Mestre e jogadores)",
+        "GM": "Somente o Mestre"
+      },
+      "noTarget": {
+        "Name": "Ataque sem alvo marcado",
+        "Hint": "Sem alvo marcado (tecla T), o módulo não tem CA para calcular a margem.",
+        "Ignore": "Não mostrar",
+        "Crit": "Só em 20 natural (acerto) ou 1 natural (erro)",
+        "Always": "Mostrar sempre"
+      },
+      "chance": {
+        "Name": "Chance de aparecer (%)",
+        "Hint": "Use menos de 100 para a frase não aparecer em toda jogada que se qualifica."
+      },
+      "imageSource": {
+        "Name": "Imagem exibida",
+        "Hint": "Qual imagem do NPC aparece junto com a frase.",
+        "Token": "Token",
+        "Portrait": "Retrato (foto da ficha)"
+      },
+      "showName": {
+        "Name": "Mostrar nome do NPC",
+        "Hint": "Usa o nome do token na cena (útil se você renomeia tokens para esconder o nome real)."
+      },
+      "scale": {
+        "Name": "Tamanho (%)",
+        "Hint": "Tamanho do cartão da frase. 100 é o tamanho original; 150 é 50% maior."
+      },
+      "position": {
+        "Name": "Posição na tela",
+        "Hint": "",
+        "Bottom": "Embaixo",
+        "Center": "Centro",
+        "Top": "Em cima"
+      },
+      "wordDelay": {
+        "Name": "Intervalo entre palavras (ms)",
+        "Hint": "Tempo entre o surgimento de cada palavra."
+      },
+      "holdTime": {
+        "Name": "Tempo na tela (segundos)",
+        "Hint": "Quanto tempo a frase fica visível depois da última palavra. Clique na frase para fechar antes."
+      },
+      "useGlobal": {
+        "Name": "Usar frases padrão",
+        "Hint": "NPCs sem frases próprias usam as frases padrão da faixa de inteligência deles. Desmarcado: só falam os NPCs que têm frases."
+      },
+      "includePlayerOwned": {
+        "Name": "Incluir NPCs dos jogadores",
+        "Hint": "Também mostra frases para NPCs controlados por jogadores (invocações, companheiros)."
+      }
+    }
+  }
+}
