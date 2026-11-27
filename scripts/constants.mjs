@@ -130,19 +130,110 @@ export const DEFAULT_LIBRARY = {
   }
 };
 
+/**
+ * Faixas usadas pelos personagens dos jogadores.
+ * Não existe "Bestial" para heróis: INT 1–3 cai em "Bruto".
+ */
+export const PC_TIERS = TIERS.filter(t => t.id !== "beast");
+
+/*
+ * Frases padrão dos personagens dos jogadores, por faixa de inteligência.
+ * Usadas quando o jogador deixa a caixa vazia. {alvo} = nome do inimigo.
+ */
+export const DEFAULT_PC_LIBRARY = {
+  brute: {
+    hit: [
+      "Hah! Bati forte!",
+      "Toma! Mais um pra pilha!",
+      "{alvo} quebra igual galho seco!"
+    ],
+    crit: [
+      "ESMAGUEI! Viu isso?!",
+      "Isso que é pancada!",
+      "Hahaha! Cabeça amassada!"
+    ],
+    miss: [
+      "Ei! Para de se mexer!",
+      "Arma escorregou... de novo.",
+      "Você tem sorte, {alvo}. Muita sorte."
+    ]
+  },
+  average: {
+    hit: [
+      "Essa foi por todos nós!",
+      "Sinta o meu aço, {alvo}!",
+      "Mais um golpe e você cai!"
+    ],
+    crit: [
+      "Direto no ponto fraco!",
+      "Essa vai ficar marcada, {alvo}!",
+      "Pelos deuses, que golpe!"
+    ],
+    miss: [
+      "Droga! Quase!",
+      "Isso foi só um aviso, {alvo}!",
+      "Escorreguei... essa não conta!"
+    ]
+  },
+  cunning: {
+    hit: [
+      "Exatamente como planejei.",
+      "Você deixou a guarda aberta, {alvo}.",
+      "Previsível. E agora, ferido."
+    ],
+    crit: [
+      "Encontrei a brecha na sua armadura.",
+      "Cálculo perfeito, {alvo}.",
+      "Eu estudei você. Valeu a pena."
+    ],
+    miss: [
+      "Hum. Preciso recalcular.",
+      "Ágil... vou lembrar disso, {alvo}.",
+      "Erro de ângulo. Não vai se repetir."
+    ]
+  },
+  genius: {
+    hit: [
+      "A física raramente perdoa, {alvo}.",
+      "Precisamente onde as probabilidades indicavam.",
+      "Uma demonstração elementar de causa e efeito."
+    ],
+    crit: [
+      "Anatomia, geometria e um pouco de arte: impecável.",
+      "Eis a diferença entre força e entendimento, {alvo}.",
+      "Registre isto nos anais: perfeição."
+    ],
+    miss: [
+      "Uma variável inesperada. Fascinante.",
+      "Os astros e eu discordamos desta vez.",
+      "Até a mente mais brilhante tem dias de chuva, {alvo}."
+    ]
+  }
+};
+
+/** Configuração de cada biblioteca: NPCs ou personagens dos jogadores. */
+export const LIBRARIES = {
+  npc: { setting: "library", tiers: TIERS, defaults: DEFAULT_LIBRARY },
+  pc: { setting: "pcLibrary", tiers: PC_TIERS, defaults: DEFAULT_PC_LIBRARY }
+};
+
 /** Lê uma configuração do módulo. */
 export function getSetting(key) {
   return game.settings.get(MODULE_ID, key);
 }
 
-/** Biblioteca de frases do mundo, completada com os padrões para faixas que faltarem. */
-export function getLibrary() {
-  const stored = getSetting("library") ?? {};
+/**
+ * Biblioteca de frases do mundo, completada com os padrões para faixas que faltarem.
+ * @param {"npc"|"pc"} [scope="npc"]
+ */
+export function getLibrary(scope = "npc") {
+  const { setting, tiers, defaults } = LIBRARIES[scope];
+  const stored = getSetting(setting) ?? {};
   const lib = {};
-  for ( const { id } of TIERS ) {
+  for ( const { id } of tiers ) {
     lib[id] = {};
     for ( const kind of KINDS ) {
-      lib[id][kind] = Array.isArray(stored[id]?.[kind]) ? stored[id][kind] : DEFAULT_LIBRARY[id][kind];
+      lib[id][kind] = Array.isArray(stored[id]?.[kind]) ? stored[id][kind] : defaults[id][kind];
     }
   }
   return lib;
