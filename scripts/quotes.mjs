@@ -1,4 +1,4 @@
-import { MODULE_ID, TIERS, getLibrary, getSetting } from "./constants.mjs";
+import { LIBRARIES, MODULE_ID, getLibrary, getSetting } from "./constants.mjs";
 
 const VIDEO_EXT = /\.(webm|mp4|m4v|ogv|ogg)(\?.*)?$/i;
 const lastQuote = new Map();
@@ -60,40 +60,49 @@ export function evaluateAttack(message) {
   return null;
 }
 
-/** Faixa de inteligência do NPC (ou a faixa forçada no editor). */
-export function getTier(actor) {
-  const override = actor?.flags?.[MODULE_ID]?.tier;
-  if ( override && TIERS.some(t => t.id === override) ) return override;
-  const int = Number(actor?.system?.abilities?.int?.value ?? 10);
-  return (TIERS.find(t => int <= t.max) ?? TIERS[2]).id;
+/** Personagem de jogador? */
+export function isPC(actor) {
+  return actor?.type === "character";
+}
+
+/** Qual biblioteca de frases padrão o ator usa: "pc" (heróis) ou "npc". */
+export function scopeOf(actor) {
+  return isPC(actor) ? "pc" : "npc";
 }
 
 /**
- * Lista de frases possíveis para o NPC. Prioridade:
- * frases próprias do NPC → frases padrão da faixa de inteligência dele.
+ * Faixa de inteligência do ator (ou a faixa forçada no editor).
+ * Heróis não têm faixa "Bestial": INT 1–3 conta como "Bruto".
+ */
+export function getTier(actor, scope = scopeOf(actor)) {
+  const tiers = LIBRARIES[scope].tiers;
+  const override = actor?.flags?.[MODULE_ID]?.tier;
+  if ( override && tiers.some(t => t.id === override) ) return override;
+  const int = Number(actor?.system?.abilities?.int?.value ?? 10);
+  return (tiers.find(t => int <= t.max) ?? tiers.find(t => t.id === "average")).id;
+}
+
+/**
+ * Lista de frases possíveis. Prioridade:
+ * frases próprias do ator → frases padrão da faixa de inteligência dele.
  * No crítico, sem frases de crítico, usa as de acerto.
- * @param {object} own   Frases do NPC: { quotes, critQuotes, missQuotes }.
+ * @param {object} own   Frases do ator: { quotes, critQuotes, missQuotes }.
  * @param {string} tier
  * @param {"hit"|"crit"|"miss"} kind
- * @param {object} [options]
- * @param {boolean} [options.allowGlobal=true]  false para personagens: só as frases do jogador.
+ * @param {"npc"|"pc"} [scope="npc"]  Qual biblioteca padrão usar.
  */
-export function poolFor(own, tier, kind, { allowGlobal = true } = {}) {
+export function poolFor(own, tier, kind, scope = "npc") {
   let mine;
   if ( kind === "miss" ) mine = own?.missQuotes;
   else if ( kind === "crit" ) mine = own?.critQuotes?.length ? own.critQuotes : own?.quotes;
   else mine = own?.quotes;
   if ( mine?.length ) return mine;
 
-  if ( !allowGlobal || !tier || !getSetting("useGlobal") ) return [];
-  const lib = getLibrary()[tier] ?? {};
+  const useDefaults = getSetting(scope === "pc" ? "usePCDefaults" : "useGlobal");
+  if ( !tier || !useDefaults ) return [];
+  const lib = getLibrary(scope)[tier] ?? {};
   if ( kind === "crit" ) return lib.crit?.length ? lib.crit : (lib.hit ?? []);
   return lib[kind] ?? [];
-}
-
-/** Personagem de jogador? (fala só com as frases escritas pelo jogador) */
-export function isPC(actor) {
-  return actor?.type === "character";
 }
 
 /**
@@ -109,8 +118,8 @@ export function canEditQuotes(actor) {
 
 /** Sorteia uma frase adequada ao ator (NPC ou personagem). */
 export function pickQuote(actor, kind, { useLast = true } = {}) {
-  const pc = isPC(actor);
-  const pool = poolFor(actor?.flags?.[MODULE_ID], pc ? null : getTier(actor), kind, { allowGlobal: !pc });
+  const scope = scopeOf(actor);
+  const pool = poolFor(actor?.flags?.[MODULE_ID], getTier(actor, scope), kind, scope);
   return pickFrom(pool, (useLast && actor) ? `${actor.uuid}.${kind}` : null);
 }
 
