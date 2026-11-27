@@ -75,23 +75,42 @@ export function getTier(actor) {
  * @param {object} own   Frases do NPC: { quotes, critQuotes, missQuotes }.
  * @param {string} tier
  * @param {"hit"|"crit"|"miss"} kind
+ * @param {object} [options]
+ * @param {boolean} [options.allowGlobal=true]  false para personagens: só as frases do jogador.
  */
-export function poolFor(own, tier, kind) {
+export function poolFor(own, tier, kind, { allowGlobal = true } = {}) {
   let mine;
   if ( kind === "miss" ) mine = own?.missQuotes;
   else if ( kind === "crit" ) mine = own?.critQuotes?.length ? own.critQuotes : own?.quotes;
   else mine = own?.quotes;
   if ( mine?.length ) return mine;
 
-  if ( !getSetting("useGlobal") ) return [];
+  if ( !allowGlobal || !tier || !getSetting("useGlobal") ) return [];
   const lib = getLibrary()[tier] ?? {};
   if ( kind === "crit" ) return lib.crit?.length ? lib.crit : (lib.hit ?? []);
   return lib[kind] ?? [];
 }
 
-/** Sorteia uma frase adequada ao NPC. */
+/** Personagem de jogador? (fala só com as frases escritas pelo jogador) */
+export function isPC(actor) {
+  return actor?.type === "character";
+}
+
+/**
+ * Quem pode editar as frases deste ator:
+ * NPC → só o Mestre; personagem → o dono (jogador) ou o Mestre, se as frases de personagens estiverem ativas.
+ */
+export function canEditQuotes(actor) {
+  if ( !actor ) return false;
+  if ( actor.type === "npc" ) return game.user.isGM;
+  if ( isPC(actor) ) return actor.isOwner && (game.user.isGM || getSetting("pcQuotes"));
+  return false;
+}
+
+/** Sorteia uma frase adequada ao ator (NPC ou personagem). */
 export function pickQuote(actor, kind, { useLast = true } = {}) {
-  const pool = poolFor(actor?.flags?.[MODULE_ID], getTier(actor), kind);
+  const pc = isPC(actor);
+  const pool = poolFor(actor?.flags?.[MODULE_ID], pc ? null : getTier(actor), kind, { allowGlobal: !pc });
   return pickFrom(pool, (useLast && actor) ? `${actor.uuid}.${kind}` : null);
 }
 
