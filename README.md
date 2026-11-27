@@ -12,6 +12,7 @@ e o dragão sussurra *"Que adorável. O rato acredita que escapou do gato."*
 - 🟡 **Acerto com folga**: ameaças (cartão dourado).
 - 🔴 **Acerto crítico**: cartão vermelho que treme.
 - 🟣 **Erro feio**: o NPC debocha ou insulta o personagem (cartão roxo).
+- 🛡️ **Os heróis também falam**: cada jogador escreve as falas do próprio personagem (cartão azul, espelhado).
 - 🎲 Espera o **Dice So Nice** terminar de rolar.
 - 🙈 Rolagens privadas do Mestre continuam privadas.
 
@@ -66,6 +67,15 @@ A faixa vem da INT da ficha. No editor do NPC dá para forçar outra faixa (por 
 - Frase inteira entre `*asteriscos*` aparece em itálico, como ação: `*Encara {alvo} sem piscar*`.
 - Os botões **Testar acerto / crítico / erro** mostram uma prévia só para você.
 
+## Falas dos personagens (jogadores)
+
+Cada jogador escreve as falas do **próprio** personagem: clique direito no token → ícone de balão, clique direito no ator na aba **Atores** ou menu ⋮ da ficha.
+
+- Mesmas regras do NPC: acerto com folga, crítico e erro feio (margem maior que 5).
+- O cartão do herói entra **pela direita**, espelhado: azul no acerto, dourado no crítico e cinza no erro.
+- Não existem frases padrão para personagens: se o jogador não escrever nada, o personagem fica calado.
+- O Mestre pode desligar tudo em **Frases dos personagens** nas configurações.
+
 ## Outras configurações
 
 | Configuração | Padrão |
@@ -79,7 +89,8 @@ A faixa vem da INT da ficha. No editor do NPC dá para forçar outra faixa (por 
 | Posição na tela | Centro |
 | Intervalo entre palavras | 260 ms |
 | Tempo na tela | 3,5 s depois da última palavra (clique para fechar antes) |
-| Usar frases padrão | Sim |
+| Frases dos personagens | Sim |
+| Usar frases padrão | Sim (só NPCs) |
 | Incluir NPCs dos jogadores | Não |
 
 Se o **Dice So Nice** estiver ativo, a frase espera os dados pararem de rolar.
