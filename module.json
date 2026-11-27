@@ -2,10 +2,10 @@
   "id": "npc-quote",
   "title": "NPC Quote — Frases de Efeito",
   "description": "Quando um NPC acerta ou erra um ataque por muito, exibe o token/retrato dele com uma frase de efeito (de acordo com a inteligência do NPC) surgindo palavra por palavra. Os personagens dos jogadores também podem ter as próprias falas.",
-  "version": "0.4",
+  "version": "0.5",
   "url": "https://github.com/lokirj/npc-quote",
   "manifest": "https://github.com/lokirj/npc-quote/releases/latest/download/module.json",
-  "download": "https://github.com/lokirj/npc-quote/releases/download/v0.4/module.zip",
+  "download": "https://github.com/lokirj/npc-quote/releases/download/v0.5/module.zip",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
