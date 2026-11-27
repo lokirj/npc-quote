@@ -1,6 +1,6 @@
 <div class="npc-quote-editor-content">
 {{#if isGlobal}}
-  <p class="hint">{{localize "NPCQUOTE.Editor.GlobalHint"}}</p>
+  <p class="hint">{{globalHint}}</p>
   <nav class="npc-quote-tabs">
     {{#each tiers}}
     <button type="button" data-action="tab" data-tier="{{id}}" class="{{#if active}}active{{/if}}">{{label}}</button>
@@ -28,7 +28,7 @@
     </div>
     {{#if isPC}}
     <p class="hint">{{pcHint}}</p>
-    {{else}}
+    {{/if}}
     <div class="form-group">
       <label for="npc-quote-tier">{{localize "NPCQUOTE.Editor.Tier"}}</label>
       <div class="form-fields">
@@ -40,7 +40,6 @@
       </div>
       <p class="hint">{{tierInfo}}</p>
     </div>
-    {{/if}}
     {{#each fields}}
     <div class="form-group stacked">
       <label>{{label}}</label>
