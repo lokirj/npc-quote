@@ -73,8 +73,17 @@ Cada jogador escreve as falas do **próprio** personagem: clique direito no toke
 
 - Mesmas regras do NPC: acerto com folga, crítico e erro feio (margem maior que 5).
 - O cartão do herói entra **pela direita**, espelhado: azul no acerto, dourado no crítico e cinza no erro.
-- Não existem frases padrão para personagens: se o jogador não escrever nada, o personagem fica calado.
-- O Mestre pode desligar tudo em **Frases dos personagens** nas configurações.
+- Se o jogador deixar uma caixa vazia, o personagem usa as **frases padrão da inteligência dele** (3 por tipo de rolagem):
+
+| Faixa | INT | Exemplo (acerto) |
+|---|---|---|
+| Bruto | 1–7 | "Toma! Mais um pra pilha!" |
+| Comum | 8–12 | "Sinta o meu aço, {alvo}!" |
+| Astuto | 13–16 | "Você deixou a guarda aberta, {alvo}." |
+| Gênio | 17+ | "Uma demonstração elementar de causa e efeito." |
+
+- O jogador pode forçar outra faixa no editor do personagem. O Mestre edita as frases padrão em *Configurações → NPC Quote → Editar frases dos personagens*.
+- O Mestre pode desligar tudo em **Frases dos personagens**, ou só as padrão em **Personagens usam frases padrão**.
 
 ## Outras configurações
 
@@ -90,6 +99,7 @@ Cada jogador escreve as falas do **próprio** personagem: clique direito no toke
 | Intervalo entre palavras | 260 ms |
 | Tempo na tela | 3,5 s depois da última palavra (clique para fechar antes) |
 | Frases dos personagens | Sim |
+| Personagens usam frases padrão | Sim |
 | Usar frases padrão | Sim (só NPCs) |
 | Incluir NPCs dos jogadores | Não |
 
