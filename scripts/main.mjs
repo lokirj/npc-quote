@@ -1,9 +1,9 @@
-import { MODULE_ID, SOCKET, DEFAULT_LIBRARY, getSetting } from "./constants.mjs";
+import { MODULE_ID, SOCKET, DEFAULT_LIBRARY, DEFAULT_PC_LIBRARY, getSetting } from "./constants.mjs";
 import {
   canEditQuotes, evaluateAttack, formatQuote, isPC, pickQuote, resolveSpeaker, waitForDice
 } from "./quotes.mjs";
 import { showQuote } from "./display.mjs";
-import { QuoteEditor } from "./editor.mjs";
+import { PCDefaultsEditor, QuoteEditor } from "./editor.mjs";
 
 /* -------------------------------------------- */
 /*  Configurações                               */
@@ -23,11 +23,20 @@ Hooks.once("init", () => {
     type: QuoteEditor,
     restricted: true
   });
+  game.settings.registerMenu(MODULE_ID, "pcGlobalEditor", {
+    name: L("pcGlobalEditor.Name"),
+    label: L("pcGlobalEditor.Label"),
+    hint: L("pcGlobalEditor.Hint"),
+    icon: "fa-solid fa-shield-halved",
+    type: PCDefaultsEditor,
+    restricted: true
+  });
 
   reg("enabled", { type: Boolean, default: true });
   reg("minMargin", { type: Number, default: 5, range: { min: 0, max: 15, step: 1 } });
   reg("showMiss", { type: Boolean, default: true });
   reg("pcQuotes", { type: Boolean, default: true });
+  reg("usePCDefaults", { type: Boolean, default: true });
   reg("extremesAlways", { type: Boolean, default: true });
   reg("audience", {
     type: String, default: "all",
@@ -56,6 +65,10 @@ Hooks.once("init", () => {
   // Frases padrão por faixa de inteligência (editadas pelo menu acima).
   game.settings.register(MODULE_ID, "library", {
     scope: "world", config: false, type: Object, default: foundry.utils.deepClone(DEFAULT_LIBRARY)
+  });
+  // Frases padrão dos personagens dos jogadores (editadas pelo segundo menu).
+  game.settings.register(MODULE_ID, "pcLibrary", {
+    scope: "world", config: false, type: Object, default: foundry.utils.deepClone(DEFAULT_PC_LIBRARY)
   });
 });
 
