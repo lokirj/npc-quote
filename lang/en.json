@@ -14,34 +14,40 @@
       "genius": "Genius",
       "geniusHint": "Dragons, mind flayers, liches. Eloquent, cold and condescending."
     },
+    "TierPC": {
+      "bruteHint": "Hot-headed barbarians and unschooled fighters. Short lines, lots of excitement.",
+      "averageHint": "The typical adventurer. Battle cries and direct taunts.",
+      "cunningHint": "Rogues, bards and strategists. Calculating, with a touch of irony.",
+      "geniusHint": "Wizards and sages. Eloquent, analytical and a bit pompous."
+    },
     "Editor": {
       "Open": "Battle quotes",
       "TitleActor": "Battle quotes: {name}",
       "TitleGlobal": "Default battle quotes",
+      "TitleGlobalPC": "Default character quotes",
       "GlobalHint": "NPCs without their own quotes use the quotes for their intelligence tier. {alvo} becomes the attacked character's name.",
+      "GlobalHintPC": "Characters whose players didn't write quotes use the quotes for their intelligence tier. {alvo} becomes the enemy's name.",
       "Enabled": "Enable quotes for this NPC",
       "EnabledPC": "Enable quotes for this character",
-      "PCHint": "Write your character's lines. They show up for the table when the character lands a solid hit, rolls a crit or misses badly. Empty box = the character stays silent in that case.",
+      "PCHint": "Write your character's lines. They show up for the table when the character lands a solid hit, rolls a crit or misses badly. Empty box = uses the default lines for the character's intelligence.",
       "KindPC": {
         "hit": {
           "Label": "On a solid hit",
-          "Hint": "One line per row; one is picked at random each time. Use {alvo} for the enemy's name.",
-          "Placeholder": "Taste Moradin's steel, {alvo}!\nFor the honor of my clan!"
+          "Hint": "One line per row; one is picked at random each time. Use {alvo} for the enemy's name."
         },
         "crit": {
           "Label": "On a critical hit (optional)",
-          "Hint": "If empty, the hit lines are used.",
-          "Placeholder": "Right in the heart!"
+          "Hint": "If empty, the hit lines are used."
         },
         "miss": {
           "Label": "On a bad miss",
-          "Hint": "Frustration, an excuse, a joke... whatever fits the character.",
-          "Placeholder": "Blast! Slipped on the blood...\nThat was just a warning, {alvo}!"
+          "Hint": "Frustration, an excuse, a joke... whatever fits the character."
         }
       },
       "Tier": "Intelligence",
       "TierAuto": "Automatic from INT ({int})",
       "TierInfo": "Tier in use: {tier}. Empty boxes use this tier's default quotes.",
+      "TierInfoPC": "Tier in use: {tier}. Empty boxes use this tier's default lines (the grey text is an example).",
       "Kind": {
         "hit": {
           "Label": "On a solid hit",
@@ -63,6 +69,7 @@
       "Saved": "Battle quotes saved.",
       "Empty": "No quotes set for this case.",
       "SampleName": "Villain",
+      "SampleHero": "Hero",
       "SampleTarget": "Adventurer"
     },
     "Settings": {
@@ -82,6 +89,15 @@
       "showMiss": {
         "Name": "Mock on bad misses",
         "Hint": "When the NPC misses by more than the minimum margin, it belittles or insults the character."
+      },
+      "pcGlobalEditor": {
+        "Name": "Default character quotes",
+        "Label": "Edit character quotes",
+        "Hint": "Quotes per intelligence tier, used by characters whose players didn't write their own."
+      },
+      "usePCDefaults": {
+        "Name": "Characters use default quotes",
+        "Hint": "Characters without their own quotes use the defaults for their intelligence. Unchecked: only characters whose players wrote quotes speak."
       },
       "pcQuotes": {
         "Name": "Player character quotes",
