@@ -1,5 +1,7 @@
 import { MODULE_ID, SOCKET, DEFAULT_LIBRARY, getSetting } from "./constants.mjs";
-import { evaluateAttack, formatQuote, pickQuote, resolveSpeaker, waitForDice } from "./quotes.mjs";
+import {
+  canEditQuotes, evaluateAttack, formatQuote, isPC, pickQuote, resolveSpeaker, waitForDice
+} from "./quotes.mjs";
 import { showQuote } from "./display.mjs";
 import { QuoteEditor } from "./editor.mjs";
 
@@ -25,6 +27,7 @@ Hooks.once("init", () => {
   reg("enabled", { type: Boolean, default: true });
   reg("minMargin", { type: Number, default: 5, range: { min: 0, max: 15, step: 1 } });
   reg("showMiss", { type: Boolean, default: true });
+  reg("pcQuotes", { type: Boolean, default: true });
   reg("extremesAlways", { type: Boolean, default: true });
   reg("audience", {
     type: String, default: "all",
@@ -88,7 +91,7 @@ Hooks.once("ready", () => {
         ? resolveSpeaker(actor)
         : { name: game.i18n.localize("NPCQUOTE.Editor.SampleName"), img: "icons/svg/mystery-man.svg", imgKind: "token" };
       target ??= game.user.targets.first()?.name;
-      const payload = { ...speaker, text: formatQuote(quote, target), kind };
+      const payload = { ...speaker, text: formatQuote(quote, target), kind, side: isPC(actor) ? "pc" : "npc" };
       if ( broadcast && game.user.isGM ) game.socket.emit(SOCKET, { action: "show", payload });
       showQuote(payload);
     }
@@ -111,8 +114,14 @@ async function handleMessage(message) {
   if ( !result ) return;
 
   const actor = ChatMessage.implementation.getSpeakerActor(message.speaker);
-  if ( actor?.type !== "npc" ) return;
-  if ( actor.hasPlayerOwner && !getSetting("includePlayerOwned") ) return;
+  if ( !actor ) return;
+  const pc = isPC(actor);
+  if ( pc ) {
+    if ( !getSetting("pcQuotes") ) return;
+  } else {
+    if ( actor.type !== "npc" ) return;
+    if ( actor.hasPlayerOwner && !getSetting("includePlayerOwned") ) return;
+  }
   if ( actor.flags?.[MODULE_ID]?.enabled === false ) return;
   if ( (Math.random() * 100) >= getSetting("chance") ) return;
 
@@ -122,7 +131,8 @@ async function handleMessage(message) {
   const payload = {
     ...resolveSpeaker(actor, message.speaker),
     text: formatQuote(quote, result.target),
-    kind: result.kind
+    kind: result.kind,
+    side: pc ? "pc" : "npc"
   };
   await waitForDice(message);
 
@@ -140,9 +150,8 @@ async function handleMessage(message) {
 
 // Botão no HUD do token (clique direito no token).
 Hooks.on("renderTokenHUD", (hud, html) => {
-  if ( !game.user.isGM ) return;
   const actor = hud.document?.actor ?? hud.object?.actor;
-  if ( actor?.type !== "npc" ) return;
+  if ( !canEditQuotes(actor) ) return;
   const root = html instanceof HTMLElement ? html : html?.[0];
   const column = root?.querySelector(".col.right") ?? root?.querySelector(".col.left");
   if ( !column ) return;
@@ -167,7 +176,7 @@ Hooks.on("getActorContextOptions", (app, options) => {
   options.push({
     name: "NPCQUOTE.Editor.Open",
     icon: '<i class="fa-solid fa-comment-dots"></i>',
-    condition: li => game.user.isGM && (getActor(li)?.type === "npc"),
+    condition: li => canEditQuotes(getActor(li)),
     callback: li => QuoteEditor.open(getActor(li))
   });
 });
@@ -175,7 +184,7 @@ Hooks.on("getActorContextOptions", (app, options) => {
 // Botão no menu (⋮) do cabeçalho da ficha do NPC.
 Hooks.on("getHeaderControlsActorSheetV2", (app, controls) => {
   const actor = app.document;
-  if ( !game.user.isGM || (actor?.type !== "npc") ) return;
+  if ( !canEditQuotes(actor) ) return;
   controls.push({
     icon: "fa-solid fa-comment-dots",
     label: "NPCQUOTE.Editor.Open",
