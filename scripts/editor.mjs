@@ -1,5 +1,5 @@
 import { MODULE_ID, KINDS, TIERS, getLibrary, parseLines } from "./constants.mjs";
-import { formatQuote, getTier, pickFrom, poolFor, resolveSpeaker } from "./quotes.mjs";
+import { formatQuote, getTier, isPC, pickFrom, poolFor, resolveSpeaker } from "./quotes.mjs";
 import { showQuote } from "./display.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -58,14 +58,14 @@ export class QuoteEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /** Monta a lista de campos (uma textarea por tipo de frase). */
-  #fields(values, nameFor, placeholders = {}) {
+  #fields(values, nameFor, placeholders = {}, labels = "Kind") {
     return KINDS.map(kind => ({
       kind,
       name: nameFor(kind),
       value: (values[kind] ?? []).join("\n"),
       rows: ROWS[kind],
-      label: game.i18n.localize(`NPCQUOTE.Editor.Kind.${kind}.Label`),
-      hint: game.i18n.localize(`NPCQUOTE.Editor.Kind.${kind}.Hint`),
+      label: game.i18n.localize(`NPCQUOTE.Editor.${labels}.${kind}.Label`),
+      hint: game.i18n.localize(`NPCQUOTE.Editor.${labels}.${kind}.Hint`),
       placeholder: placeholders[kind] ?? ""
     }));
   }
@@ -87,14 +87,29 @@ export class QuoteEditor extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     const f = this.actor.flags?.[MODULE_ID] ?? {};
+    const values = Object.fromEntries(KINDS.map(k => [k, f[ACTOR_FIELDS[k]] ?? []]));
+
+    // Personagem de jogador: só as frases dele, sem faixa de inteligência nem frases padrão.
+    if ( isPC(this.actor) ) {
+      const placeholders = Object.fromEntries(KINDS.map(k => [k, game.i18n.localize(`NPCQUOTE.Editor.KindPC.${k}.Placeholder`)]));
+      return {
+        isGlobal: false,
+        isPC: true,
+        enabled: f.enabled ?? true,
+        enabledLabel: game.i18n.localize("NPCQUOTE.Editor.EnabledPC"),
+        pcHint: game.i18n.localize("NPCQUOTE.Editor.PCHint"),
+        fields: this.#fields(values, kind => ACTOR_FIELDS[kind], placeholders, "KindPC")
+      };
+    }
+
     const tier = getTier(this.actor);
     const int = this.actor.system?.abilities?.int?.value ?? "?";
-    const values = Object.fromEntries(KINDS.map(k => [k, f[ACTOR_FIELDS[k]] ?? []]));
     // O exemplo mostrado na caixa vazia vem da faixa de inteligência do NPC.
     const placeholders = Object.fromEntries(KINDS.map(k => [k, (library[tier][k] ?? []).slice(0, 2).join("\n")]));
     return {
       isGlobal: false,
       enabled: f.enabled ?? true,
+      enabledLabel: game.i18n.localize("NPCQUOTE.Editor.Enabled"),
       tierOptions: [
         { value: "auto", label: game.i18n.format("NPCQUOTE.Editor.TierAuto", { int }), selected: !f.tier || (f.tier === "auto") },
         ...TIERS.map(({ id }) => ({ value: id, label: tierLabel(id), selected: f.tier === id }))
@@ -108,7 +123,8 @@ export class QuoteEditor extends HandlebarsApplicationMixin(ApplicationV2) {
   static async #onSubmit(event, form, formData) {
     const data = foundry.utils.expandObject(formData.object);
     if ( this.actor ) {
-      const update = { enabled: Boolean(data.enabled), tier: data.tier || "auto" };
+      const update = { enabled: Boolean(data.enabled) };
+      if ( !isPC(this.actor) ) update.tier = data.tier || "auto";
       for ( const kind of KINDS ) update[ACTOR_FIELDS[kind]] = parseLines(data[ACTOR_FIELDS[kind]]);
       await this.actor.update({ [`flags.${MODULE_ID}`]: update });
     } else {
@@ -139,7 +155,9 @@ export class QuoteEditor extends HandlebarsApplicationMixin(ApplicationV2) {
     const own = { quotes: read("hit"), critQuotes: read("crit"), missQuotes: read("miss") };
 
     let pool;
-    if ( this.actor ) {
+    if ( isPC(this.actor) ) {
+      pool = poolFor(own, null, kind, { allowGlobal: false });
+    } else if ( this.actor ) {
       const tierSelect = this.element.querySelector('select[name="tier"]')?.value;
       const tier = (tierSelect && (tierSelect !== "auto")) ? tierSelect : getTier({ system: this.actor.system });
       pool = poolFor(own, tier, kind);
@@ -154,6 +172,6 @@ export class QuoteEditor extends HandlebarsApplicationMixin(ApplicationV2) {
       ? resolveSpeaker(this.actor)
       : { name: game.i18n.localize("NPCQUOTE.Editor.SampleName"), img: "icons/svg/mystery-man.svg", imgKind: "token" };
     const targetName = game.user.targets.first()?.name ?? game.i18n.localize("NPCQUOTE.Editor.SampleTarget");
-    showQuote({ ...speaker, text: formatQuote(text, targetName), kind });
+    showQuote({ ...speaker, text: formatQuote(text, targetName), kind, side: isPC(this.actor) ? "pc" : "npc" });
   }
 }
