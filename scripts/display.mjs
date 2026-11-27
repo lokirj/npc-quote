@@ -25,7 +25,7 @@ async function processQueue() {
   busy = false;
 }
 
-function play({ name, img, imgKind = "token", text, kind = "hit", crit = false }) {
+function play({ name, img, imgKind = "token", text, kind = "hit", crit = false, side = "npc" }) {
   return new Promise(resolve => {
     if ( crit ) kind = "crit";
     const position = getSetting("position");
@@ -41,6 +41,7 @@ function play({ name, img, imgKind = "token", text, kind = "hit", crit = false }
     const root = document.createElement("div");
     root.className = `npc-quote-overlay npc-quote-${position} npc-quote-${kind === "miss" ? "miss" : kind === "crit" ? "crit" : "hit"}`;
     if ( action ) root.classList.add("npc-quote-action");
+    if ( side === "pc" ) root.classList.add("npc-quote-pc");
     const scale = Number(getSetting("scale"));
     if ( scale > 0 ) root.style.setProperty("--s", String(scale / 100));
     root.innerHTML = `
