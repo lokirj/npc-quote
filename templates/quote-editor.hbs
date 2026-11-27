@@ -21,11 +21,14 @@
 {{else}}
   <div class="standard-form">
     <div class="form-group">
-      <label for="npc-quote-enabled">{{localize "NPCQUOTE.Editor.Enabled"}}</label>
+      <label for="npc-quote-enabled">{{enabledLabel}}</label>
       <div class="form-fields">
         <input type="checkbox" id="npc-quote-enabled" name="enabled" {{checked enabled}}>
       </div>
     </div>
+    {{#if isPC}}
+    <p class="hint">{{pcHint}}</p>
+    {{else}}
     <div class="form-group">
       <label for="npc-quote-tier">{{localize "NPCQUOTE.Editor.Tier"}}</label>
       <div class="form-fields">
@@ -37,6 +40,7 @@
       </div>
       <p class="hint">{{tierInfo}}</p>
     </div>
+    {{/if}}
     {{#each fields}}
     <div class="form-group stacked">
       <label>{{label}}</label>
