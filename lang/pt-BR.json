@@ -20,6 +20,25 @@
       "TitleGlobal": "Frases de efeito padrão",
       "GlobalHint": "NPCs sem frases próprias usam as frases da faixa da inteligência deles. {alvo} vira o nome do personagem atacado.",
       "Enabled": "Ativar frases para este NPC",
+      "EnabledPC": "Ativar frases para este personagem",
+      "PCHint": "Escreva as falas do seu personagem. Elas aparecem para a mesa quando ele acerta com folga, tira um crítico ou erra feio. Caixa vazia = o personagem fica calado nesse caso.",
+      "KindPC": {
+        "hit": {
+          "Label": "Ao acertar com folga",
+          "Hint": "Uma frase por linha; uma é sorteada a cada vez. Use {alvo} para o nome do inimigo.",
+          "Placeholder": "Sinta o aço de Moradin, {alvo}!\nPela honra do meu clã!"
+        },
+        "crit": {
+          "Label": "Em acerto crítico (opcional)",
+          "Hint": "Se ficar vazio, usa as frases de acerto.",
+          "Placeholder": "Direto no coração!"
+        },
+        "miss": {
+          "Label": "Ao errar feio",
+          "Hint": "Frustração, desculpa, piada... o que combinar com o personagem.",
+          "Placeholder": "Droga! Escorreguei no sangue...\nIsso foi só um aviso, {alvo}!"
+        }
+      },
       "Tier": "Inteligência",
       "TierAuto": "Automático pela INT ({int})",
       "TierInfo": "Faixa usada: {tier}. Caixas vazias usam as frases padrão desta faixa.",
@@ -63,6 +82,10 @@
       "showMiss": {
         "Name": "Zombar quando errar feio",
         "Hint": "Quando o NPC erra por mais que a margem mínima, ele menospreza ou insulta o personagem."
+      },
+      "pcQuotes": {
+        "Name": "Frases dos personagens",
+        "Hint": "Personagens dos jogadores também falam ao acertar com folga ou errar feio. Cada jogador escreve as frases do próprio personagem: clique direito no token (ícone de balão), clique direito no ator na aba Atores, ou menu ⋮ da ficha."
       },
       "extremesAlways": {
         "Name": "20 e 1 naturais sempre mostram",
