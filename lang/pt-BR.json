@@ -14,34 +14,40 @@
       "genius": "Gênio",
       "geniusHint": "Dragões, devoradores de mentes, liches. Eloquente, frio e condescendente."
     },
+    "TierPC": {
+      "bruteHint": "Bárbaros de cabeça quente e lutadores pouco estudados. Frases curtas, muita empolgação.",
+      "averageHint": "O aventureiro típico. Gritos de guerra e provocações diretas.",
+      "cunningHint": "Ladinos, bardos e estrategistas. Calculistas, com um toque de ironia.",
+      "geniusHint": "Magos e sábios. Eloquentes, analíticos e um tanto pomposos."
+    },
     "Editor": {
       "Open": "Frases de efeito",
       "TitleActor": "Frases de efeito: {name}",
       "TitleGlobal": "Frases de efeito padrão",
+      "TitleGlobalPC": "Frases padrão dos personagens",
       "GlobalHint": "NPCs sem frases próprias usam as frases da faixa da inteligência deles. {alvo} vira o nome do personagem atacado.",
+      "GlobalHintPC": "Personagens cujos jogadores não escreveram frases usam as frases da faixa da inteligência deles. {alvo} vira o nome do inimigo.",
       "Enabled": "Ativar frases para este NPC",
       "EnabledPC": "Ativar frases para este personagem",
-      "PCHint": "Escreva as falas do seu personagem. Elas aparecem para a mesa quando ele acerta com folga, tira um crítico ou erra feio. Caixa vazia = o personagem fica calado nesse caso.",
+      "PCHint": "Escreva as falas do seu personagem. Elas aparecem para a mesa quando ele acerta com folga, tira um crítico ou erra feio. Caixa vazia = usa as frases padrão da inteligência do personagem.",
       "KindPC": {
         "hit": {
           "Label": "Ao acertar com folga",
-          "Hint": "Uma frase por linha; uma é sorteada a cada vez. Use {alvo} para o nome do inimigo.",
-          "Placeholder": "Sinta o aço de Moradin, {alvo}!\nPela honra do meu clã!"
+          "Hint": "Uma frase por linha; uma é sorteada a cada vez. Use {alvo} para o nome do inimigo."
         },
         "crit": {
           "Label": "Em acerto crítico (opcional)",
-          "Hint": "Se ficar vazio, usa as frases de acerto.",
-          "Placeholder": "Direto no coração!"
+          "Hint": "Se ficar vazio, usa as frases de acerto."
         },
         "miss": {
           "Label": "Ao errar feio",
-          "Hint": "Frustração, desculpa, piada... o que combinar com o personagem.",
-          "Placeholder": "Droga! Escorreguei no sangue...\nIsso foi só um aviso, {alvo}!"
+          "Hint": "Frustração, desculpa, piada... o que combinar com o personagem."
         }
       },
       "Tier": "Inteligência",
       "TierAuto": "Automático pela INT ({int})",
       "TierInfo": "Faixa usada: {tier}. Caixas vazias usam as frases padrão desta faixa.",
+      "TierInfoPC": "Faixa usada: {tier}. Caixas vazias usam as frases padrão desta faixa (o texto em cinza é um exemplo).",
       "Kind": {
         "hit": {
           "Label": "Ao acertar com folga",
@@ -63,6 +69,7 @@
       "Saved": "Frases de efeito salvas.",
       "Empty": "Nenhuma frase cadastrada para esse caso.",
       "SampleName": "Vilão",
+      "SampleHero": "Herói",
       "SampleTarget": "Aventureiro"
     },
     "Settings": {
@@ -82,6 +89,15 @@
       "showMiss": {
         "Name": "Zombar quando errar feio",
         "Hint": "Quando o NPC erra por mais que a margem mínima, ele menospreza ou insulta o personagem."
+      },
+      "pcGlobalEditor": {
+        "Name": "Frases padrão dos personagens",
+        "Label": "Editar frases dos personagens",
+        "Hint": "Frases por faixa de inteligência, usadas pelos personagens cujos jogadores não escreveram as próprias."
+      },
+      "usePCDefaults": {
+        "Name": "Personagens usam frases padrão",
+        "Hint": "Personagens sem frases próprias usam as frases padrão da inteligência deles. Desmarcado: só falam os personagens cujos jogadores escreveram frases."
       },
       "pcQuotes": {
         "Name": "Frases dos personagens",
